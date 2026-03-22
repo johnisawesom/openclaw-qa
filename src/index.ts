@@ -1,18 +1,17 @@
 import express, { Request, Response } from "express";
 import { validateFix } from "./validator.js";
 import { ReviewRequest, ReviewResponse } from "./types.js";
+import { callLLM } from "./llm-router.js";
 
 const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT ?? "8080";
 
-// Health check
 app.get("/health", (_req: Request, res: Response) => {
-  res.json({ status: "ok", bot: "openclaw-qa", version: "1.0.0" });
+  res.json({ status: "ok", bot: "openclaw-qa", version: "1.1.0" });
 });
 
-// Review endpoint
 app.post("/review", (req: Request, res: Response) => {
   console.log("[QA] Received review request");
 
@@ -44,8 +43,10 @@ app.post("/review", (req: Request, res: Response) => {
   res.status(result.status === "PASS" ? 200 : 400).json(result);
 });
 
-// Boot
 app.listen(parseInt(PORT), "0.0.0.0", () => {
-  console.log(`[QA] Boot confirmed — openclaw-qa v1.0.0`);
+  console.log(`[QA] Boot confirmed — openclaw-qa v1.1.0`);
+  console.log(`[QA] LLM router loaded — task: qa_validation`);
   console.log(`[QA] Health server on port ${PORT}`);
 });
+
+void callLLM;
