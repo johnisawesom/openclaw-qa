@@ -8,6 +8,14 @@ primary_region = "syd"
   force_https = true
   auto_stop_machines = false
   min_machines_running = 1
+  wait_timeout = "120s"
+
+  [[http_service.checks]]
+    grace_period = "30s"
+    interval = "15s"
+    method = "GET"
+    path = "/health"
+    timeout = "10s"
 
 [[vm]]
   memory = "512mb"
