@@ -147,7 +147,7 @@ app.post('/review', async (req: Request, res: Response): Promise<void> => {
     }
 
     // Write QA record to qa_logs
-    const fix = body.fix as Record<string, unknown>;
+    const fix = body.fix as unknown as Record<string, unknown>;
     const qaRecord = {
       timestamp,
       prUrl: body.prUrl,
